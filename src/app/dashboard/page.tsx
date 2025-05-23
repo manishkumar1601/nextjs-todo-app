@@ -14,6 +14,7 @@ import { FormEvent, useEffect, useState } from "react";
 import SpinnerImage from "/public/spinner.svg";
 import Image from "next/image";
 import { toast } from "sonner";
+import AddTodoForm from "./AddTodoForm";
 
 const DashboardPage = () => {
   const userData: any = useAppSelector((state) => state?.auth?.userData);
@@ -102,21 +103,11 @@ const DashboardPage = () => {
       <section className="flex-1 bg-gray-100 w-full h-full">
         <section className="flex flex-col items-center gap-6 max-w-lg mx-auto">
           <h1 className="text-4xl font-bold">Todo List</h1>
-          <form className="flex" onSubmit={handleFormSubmit}>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="bg-white text-black p-4 rounded-l-xl outline-none focus:outline-none"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="todo-button bg-[#5dacdd] text-white cursor-pointer p-4 rounded-r-xl font-bold hover:bg-[#eec519]"
-            >
-              Add Task
-            </button>
-          </form>
+          <AddTodoForm
+            inputValue={inputValue}
+            handleFormSubmit={handleFormSubmit}
+            setInputValue={setInputValue}
+          />
           <button
             type="button"
             className="bg-red-600 font-bold rounded-md px-4 py-2 text-white cursor-pointer"
@@ -124,18 +115,18 @@ const DashboardPage = () => {
           >
             Clear All
           </button>
-          <ul>
-            {todoList?.length ? (
-              todoList?.map((todo) => (
+          {todoList.length > 0 && (
+            <ul>
+              {todoList.map((todo) => (
                 <TodoList
                   key={todo?.id}
                   todo={todo}
                   handleCheckTodo={handleCheckTodo}
                   handleDeleteTodo={handleDeleteTodo}
                 />
-              ))) : ('')
-            }
-          </ul>
+              ))}
+            </ul>
+          )}
         </section>
       </section>
     </>
